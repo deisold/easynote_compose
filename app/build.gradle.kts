@@ -19,6 +19,11 @@ android {
 
     }
 
+    buildTypes {
+        getByName("debug") {
+        }
+    }
+
 //    buildTypes {
 //        release {
 //            minifyEnabled = false
@@ -52,7 +57,12 @@ android {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(project(":core"))
+    implementation(project(":data:database"))
+    implementation(project(":data:repository"))
+    implementation(project(":design"))
+
+//    testImplementation("org.junit.jupiter:junit-jupiter")
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -64,6 +74,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -79,6 +90,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.ui.viewbinding)
     implementation(libs.androidx.compose.ui.googlefonts)
+
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compat)
+    implementation(libs.koin.androidx.navigation)
+    implementation(libs.koin.androidx.compose)
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 

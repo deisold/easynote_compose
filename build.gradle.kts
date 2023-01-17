@@ -15,12 +15,12 @@ buildscript {
 }
 
 
-subprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+//subprojects {
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//}
 
 plugins {
     id("com.github.ben-manes.versions") version "0.43.0"
@@ -28,7 +28,9 @@ plugins {
 }
 
 apply("${project.rootDir}/buildscripts/toml-updater-config.gradle")
-
+//repositories {
+//    google()
+//}
 
 //plugins {
 //    alias(libs.plugins.android.application) apply false

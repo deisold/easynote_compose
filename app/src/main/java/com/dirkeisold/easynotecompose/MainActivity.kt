@@ -1,11 +1,21 @@
 package com.dirkeisold.easynotecompose
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.core.view.WindowCompat
+import com.dirkeisold.easynotecompose.design.theme.MyTheme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        setContent {
+            MyTheme {
+                MyApp()
+            }
+        }
     }
 }

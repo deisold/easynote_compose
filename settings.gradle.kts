@@ -7,13 +7,6 @@ pluginManagement {
         mavenCentral()
     }
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -29,4 +22,11 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "EasynoteCompose"
+
 include(":app")
+include(":core")
+include(":data:database")
+include(":data:repository")
+include(":overview")
+include(":design")
+include(":feature:overview")

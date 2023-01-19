@@ -17,11 +17,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.dirkeisold.easynotecompose.design.component.AppBackground
+import easynotecompose.feature.overview.navigation.overviewNavigationRoute
+import easynotecompose.feature.overview.navigation.overviewScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun MyApp() {
+    val navController: NavHostController = rememberNavController()
+
     AppBackground {
         Scaffold(
             containerColor = Color.Transparent,
@@ -40,7 +47,13 @@ fun MyApp() {
                     )
             ) {
                 Column(Modifier.fillMaxSize()) {
-
+                    NavHost(
+                        navController = navController,
+                        startDestination = overviewNavigationRoute,
+                        modifier = Modifier,
+                    ){
+                        overviewScreen()
+                    }
                 }
             }
         }

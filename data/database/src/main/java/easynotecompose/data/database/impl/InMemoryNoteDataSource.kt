@@ -9,7 +9,7 @@ class InMemoryNoteDataSource : NoteDataSource {
 
     init {
         data.putAll(
-            MutableList(10) { it }.associate { index -> index.toString() to createRandomNote(index) }
+            MutableList(20) { it }.associate { index -> index.toString() to createRandomNote(index) }
         )
     }
 

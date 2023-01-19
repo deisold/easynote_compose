@@ -61,8 +61,8 @@ dependencies {
     implementation(project(":data:database"))
     implementation(project(":data:repository"))
     implementation(project(":design"))
+    implementation(project(":feature:overview"))
 
-//    testImplementation("org.junit.jupiter:junit-jupiter")
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)

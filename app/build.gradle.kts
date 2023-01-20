@@ -62,6 +62,7 @@ dependencies {
     implementation(project(":data:repository"))
     implementation(project(":design"))
     implementation(project(":feature:overview"))
+    implementation(project(":feature:details"))
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)

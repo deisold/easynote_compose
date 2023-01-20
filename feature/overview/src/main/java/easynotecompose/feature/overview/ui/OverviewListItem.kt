@@ -1,7 +1,6 @@
 package easynotecompose.feature.overview.ui
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -28,15 +26,18 @@ import com.dirkeisold.easynotecompose.design.theme.MyTheme
 @Composable
 fun OverviewListItem(
     modifier: Modifier = Modifier,
+    id: String,
     title: String,
     text: String? = null,
-    itemSeparation: Dp = 8.dp
+    itemSeparation: Dp = 8.dp,
+    navigateToDetails: (String) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { navigateToDetails(id) }
     ) {
         Row(
             modifier = modifier.padding(horizontal = 16.dp),
@@ -58,7 +59,7 @@ fun OverviewListItem(
                     text?.takeIfNotEmpty {
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = text,
+                            text = it,
                             maxLines = 3,
                             style = MaterialTheme.typography.bodyMedium,
                             overflow = TextOverflow.Ellipsis,
@@ -75,7 +76,10 @@ fun OverviewListItem(
 fun OverviewListItemPreview() {
     MyTheme {
         Surface {
-            OverviewListItem(title = "Test title")
+            OverviewListItem(
+                id = "1",
+                title = "Test title",
+                navigateToDetails = {})
         }
     }
 }
@@ -86,8 +90,10 @@ fun OverviewListItemPreviewLongTitle() {
     MyTheme {
         Surface {
             OverviewListItem(
+                id = "1",
                 title = "Test title verrrry long kljsald;fj a;s f;lajflksjjd flkjfsad flskafd",
-                text = "Text verrrry long kljsald;fj a;s f;lajflksjjd flkjfsad flskafd"
+                text = "Text verrrry long kljsald;fj a;s f;lajflksjjd flkjfsad flskafd",
+                navigateToDetails = {}
             )
         }
     }

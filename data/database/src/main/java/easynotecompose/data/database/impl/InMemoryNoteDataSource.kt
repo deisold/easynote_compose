@@ -22,7 +22,7 @@ class InMemoryNoteDataSource : NoteDataSource {
     }
 
     private fun createRandomNote(index: Int) = NoteDb(
-        id = (index + 1).toString(),
+        id = index.toString(),
         created = Date(),
         title = "Note #${index + 1}",
         text = "Text #${index + 1}"

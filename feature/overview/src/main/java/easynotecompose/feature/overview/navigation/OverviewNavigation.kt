@@ -6,14 +6,18 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import easynotecompose.feature.overview.ui.OverviewListRoute
 
-const val overviewNavigationRoute = "for_you_route"
+const val overviewNavigationRoute = "overview_route"
 
 fun NavController.navigateToOverview(navOptions: NavOptions? = null) {
-    navigate(overviewNavigationRoute)
+    navigate(overviewNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.overviewScreen() {
+fun NavGraphBuilder.overviewScreen(
+    navigateToDetails: (String) -> Unit,
+    nestedGraph: NavGraphBuilder.() -> Unit
+) {
     composable(route = overviewNavigationRoute) {
-        OverviewListRoute()
+        OverviewListRoute(navigateToDetails = navigateToDetails)
     }
+    nestedGraph()
 }

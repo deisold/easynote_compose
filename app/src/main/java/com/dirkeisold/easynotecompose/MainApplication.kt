@@ -3,6 +3,7 @@ package com.dirkeisold.easynotecompose
 import android.app.Application
 import easynotecompose.data.database.di.dataBaseModule
 import easynotecompose.data.repository.di.repositoryModule
+import easynotecompose.feature.details.di.featureDetailsModule
 import easynotecompose.feature.overview.di.featureOverviewModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,5 +24,5 @@ class MainApplication : Application() {
     }
 
     private fun getCoreKoinModule() = listOf(dataBaseModule, repositoryModule)
-    private fun getFeatureKoinModule() = listOf(featureOverviewModule)
+    private fun getFeatureKoinModule() = listOf(featureOverviewModule, featureDetailsModule)
 }

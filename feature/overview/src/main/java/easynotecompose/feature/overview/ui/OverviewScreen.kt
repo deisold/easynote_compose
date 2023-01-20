@@ -14,7 +14,6 @@ import com.dirkeisold.easynotecompose.core.ui.common.DevicePreviews
 import com.dirkeisold.easynotecompose.core.ui.components.LoadingScreen
 import com.dirkeisold.easynotecompose.design.component.AppBackground
 import com.dirkeisold.easynotecompose.design.theme.MyTheme
-import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
 import java.util.Date
 
@@ -22,17 +21,19 @@ import java.util.Date
 @Composable
 internal fun OverviewListRoute(
     modifier: Modifier = Modifier,
-    viewModel: OverviewViewModel = koinViewModel()
+    viewModel: OverviewViewModel = koinViewModel(),
+    navigateToDetails: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    OverviewScreen(uiState = uiState, modifier = modifier)
+    OverviewScreen(uiState = uiState, modifier = modifier, navigateToDetails = navigateToDetails)
 }
 
 
 @Composable
 internal fun OverviewScreen(
     uiState: OverviewViewModel.OverviewUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetails: (String) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -42,7 +43,8 @@ internal fun OverviewScreen(
             OverviewViewModel.OverviewUiState.Loading -> LoadingScreen(modifier)
             is OverviewViewModel.OverviewUiState.Data -> OverviewListScreen(
                 modifier = modifier,
-                notes = uiState.notes
+                notes = uiState.notes,
+                navigateToDetails = navigateToDetails
             )
 
             OverviewViewModel.OverviewUiState.Error -> TODO()
@@ -59,7 +61,8 @@ internal fun OverviewScreenPreview() {
             OverviewScreen(
                 uiState = OverviewViewModel.OverviewUiState.Data(
                     notes = MutableList(10, init = { index -> createRandomNote(index) })
-                )
+                ),
+                navigateToDetails = {}
             )
         }
     }
@@ -77,7 +80,10 @@ internal fun createRandomNote(index: Int) = Note(
 internal fun OverviewScreenLoadingPreview() {
     MyTheme {
         AppBackground {
-            OverviewScreen(uiState = OverviewViewModel.OverviewUiState.Loading)
+            OverviewScreen(
+                uiState = OverviewViewModel.OverviewUiState.Loading,
+                navigateToDetails = {}
+            )
         }
     }
 }

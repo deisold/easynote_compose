@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dirkeisold.easynotecompose.core.model.Note
 
-
 @Composable
 fun OverviewListScreen(
+    modifier: Modifier = Modifier,
     notes: Iterable<Note>,
-    modifier: Modifier = Modifier
+    navigateToDetails: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -23,7 +23,13 @@ fun OverviewListScreen(
     ) {
         notes.forEach { note ->
             item(key = note.id) {
-                OverviewListItem(title = note.title, text = note.text, modifier = modifier)
+                OverviewListItem(
+                    id = note.id,
+                    title = note.title,
+                    text = note.text,
+                    modifier = modifier,
+                    navigateToDetails = navigateToDetails
+                )
             }
         }
     }

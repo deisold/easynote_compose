@@ -9,6 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dirkeisold.easynotecompose.core.ui.components.LoadingScreen
+import easynotecompose.feature.details.model.UpdatedNote
+import easynotecompose.feature.details.ui.views.DetailsEditView
+import easynotecompose.feature.details.ui.views.DetailsView
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -19,13 +22,24 @@ internal fun DetailsRoute(
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    DetailsScreen(uiState = uiState, modifier = modifier)
+    DetailsScreen(
+        uiState = uiState,
+        modifier = modifier,
+        onBackClick = onBackClick,
+        onEditClicked = { viewModel.onUiAction(DetailsViewModel.DetailsUiAction.OnEditNote) },
+        onSaveClicked = { note ->
+            viewModel.onUiAction(DetailsViewModel.DetailsUiAction.OnSaveNote(note))
+        },
+    )
 }
 
 @Composable
 fun DetailsScreen(
     uiState: DetailsViewModel.DetailsUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    onEditClicked: () -> Unit,
+    onSaveClicked: (UpdatedNote) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -33,9 +47,18 @@ fun DetailsScreen(
     ) {
         when (uiState) {
             DetailsViewModel.DetailsUiState.Loading -> LoadingScreen(modifier)
-            is DetailsViewModel.DetailsUiState.Data -> DetailsView(
-                note = uiState.note,
-                modifier = modifier
+            is DetailsViewModel.DetailsUiState.Show -> DetailsView(
+                modifier = modifier,
+                state = uiState,
+                onBackClick = onBackClick,
+                onEditClicked = onEditClicked
+            )
+
+            is DetailsViewModel.DetailsUiState.Edit -> DetailsEditView(
+                modifier = modifier,
+                state = uiState,
+                onBackClick = onBackClick,
+                onSaveClicked = onSaveClicked
             )
 
             DetailsViewModel.DetailsUiState.Error -> TODO()

@@ -7,10 +7,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dirkeisold.easynotecompose.core.model.Note
 import com.dirkeisold.easynotecompose.core.ui.common.DevicePreviews
+import com.dirkeisold.easynotecompose.core.ui.common.OnLifecycleEvent
+import com.dirkeisold.easynotecompose.core.ui.common.case
 import com.dirkeisold.easynotecompose.core.ui.components.LoadingScreen
 import com.dirkeisold.easynotecompose.design.component.AppBackground
 import com.dirkeisold.easynotecompose.design.theme.MyTheme
@@ -25,9 +28,11 @@ internal fun OverviewListRoute(
     navigateToDetails: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    OnLifecycleEvent { _, event ->
+        event.case(Lifecycle.Event.ON_RESUME) { viewModel.onResume() }
+    }
     OverviewScreen(uiState = uiState, modifier = modifier, navigateToDetails = navigateToDetails)
 }
-
 
 @Composable
 internal fun OverviewScreen(

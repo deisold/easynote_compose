@@ -4,12 +4,13 @@ import androidx.lifecycle.viewModelScope
 import com.dirkeisold.easynotecompose.core.model.Note
 import com.dirkeisold.easynotecompose.core.repository.NoteRepository
 import com.dirkeisold.easynotecompose.core.ui.common.MviViewModel
+import com.dirkeisold.easynotecompose.core.ui.common.UiAction
 import com.dirkeisold.easynotecompose.core.ui.common.UiState
 import kotlinx.coroutines.launch
 
 class OverviewViewModel(
     val noteRepository: NoteRepository
-) : MviViewModel<OverviewViewModel.OverviewUiState>() {
+) : MviViewModel<OverviewViewModel.OverviewUiState, UiAction>() {
     sealed interface OverviewUiState : UiState {
         object Loading : OverviewUiState
         object Error : OverviewUiState
@@ -18,10 +19,6 @@ class OverviewViewModel(
 
     override fun getInitialUiState() = OverviewUiState.Loading
 
-    init {
-        loadNotes()
-    }
-
     private fun loadNotes() {
         viewModelScope.launch {
             noteRepository.getAll().fold(
@@ -29,5 +26,9 @@ class OverviewViewModel(
                 onSuccess = { state(OverviewUiState.Data(it)) }
             )
         }
+    }
+
+    fun onResume(){
+        loadNotes()
     }
 }

@@ -1,0 +1,7 @@
+<resources>
+    <string name="details_action_edit">Edit</string>
+    <string name="details_action_back">Back</string>
+    <string name="details_action_edit_details_title">Edit Note</string>
+    <string name="details_action_edit_details_title_caption">Title</string>
+    <string name="details_action_edit_details_text_caption">Text</string>
+</resources>

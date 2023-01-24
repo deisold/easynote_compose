@@ -1,5 +1,6 @@
 package easynotecompose.feature.overview.ui
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.dirkeisold.easynotecompose.core.model.Note
 import com.dirkeisold.easynotecompose.core.repository.NoteRepository
@@ -22,13 +23,16 @@ class OverviewViewModel(
     private fun loadNotes() {
         viewModelScope.launch {
             noteRepository.getAll().fold(
-                onFailure = { state(OverviewUiState.Error) },
+                onFailure = {
+                    Log.w(this@OverviewViewModel::class.java.canonicalName, it)
+                    state(OverviewUiState.Error)
+                },
                 onSuccess = { state(OverviewUiState.Data(it)) }
             )
         }
     }
 
-    fun onResume(){
+    fun onResume() {
         loadNotes()
     }
 }

@@ -1,9 +1,9 @@
 package easynotecompose.data.database
 
-import easynotecompose.data.database.data.NoteDb
+import easynotecompose.data.database.model.NoteEntity
 
 interface NoteDataSource {
-    suspend fun get(id: String): NoteDb?
-    suspend fun getAll(): Iterable<NoteDb>
-    suspend fun save(note: NoteDb)
+    suspend fun get(id: String): NoteEntity?
+    suspend fun getAll(): Iterable<NoteEntity>
+    suspend fun save(note: NoteEntity)
 }

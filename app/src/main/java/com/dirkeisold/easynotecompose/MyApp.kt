@@ -21,7 +21,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.dirkeisold.easynotecompose.design.component.AppBackground
+import easynotecompose.feature.details.navigation.createNoteScreen
 import easynotecompose.feature.details.navigation.detailsScreen
+import easynotecompose.feature.details.navigation.navigateToCreateNote
 import easynotecompose.feature.details.navigation.navigateToDetailsFor
 import easynotecompose.feature.overview.navigation.overviewNavigationRoute
 import easynotecompose.feature.overview.navigation.overviewScreen
@@ -58,8 +60,12 @@ fun MyApp() {
                             navigateToDetails = { noteId ->
                                 navController.navigateToDetailsFor(noteId)
                             },
+                            navigateToCreate = {
+                                navController.navigateToCreateNote()
+                            },
                             nestedGraph = {
                                 detailsScreen { navController.popBackStack() }
+                                createNoteScreen { navController.popBackStack() }
                             }
                         )
                     }

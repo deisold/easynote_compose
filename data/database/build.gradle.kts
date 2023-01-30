@@ -11,7 +11,7 @@ android {
     namespace = "easynotecompose.data.database"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
-    defaultConfig{
+    defaultConfig {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }

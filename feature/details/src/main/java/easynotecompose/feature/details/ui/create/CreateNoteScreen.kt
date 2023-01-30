@@ -1,44 +1,60 @@
-package easynotecompose.feature.details.ui
+package easynotecompose.feature.details.ui.create
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.dirkeisold.easynotecompose.core.ui.components.LoadingScreen
+import com.dirkeisold.easynotecompose.core.ui.extension.CollectAsEffect
 import easynotecompose.feature.details.model.UpdatedNote
 import easynotecompose.feature.details.ui.views.DetailsEditView
-import easynotecompose.feature.details.ui.views.DetailsView
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-internal fun DetailsRoute(
+internal fun CreateNoteRoute(
     modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel = koinViewModel(),
+    viewModel: CreateNoteViewModel = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    DetailsScreen(
+
+    CreateNoteScreen(
         uiState = uiState,
         modifier = modifier,
         onBackClick = onBackClick,
-        onEditClicked = { viewModel.onUiAction(DetailsViewModel.DetailsUiAction.OnEditNote) },
         onSaveClicked = { note ->
-            viewModel.onUiAction(DetailsViewModel.DetailsUiAction.OnSaveNote(note))
+            viewModel.onUiAction(CreateNoteViewModel.CreateNoteUiAction.OnSaveNote(note))
         },
     )
+
+    val context = LocalContext.current
+    viewModel.uiEvent.CollectAsEffect {
+        Log.d("CreateNoteRoute", "uiEvent=$it")
+
+        when (it) {
+            CreateNoteViewModel.CreateNoteUiEvent.ErrorSaving -> {
+                Toast.makeText(context, "Error saving note", Toast.LENGTH_LONG).show()
+            }
+
+            CreateNoteViewModel.CreateNoteUiEvent.Saved -> {
+                onBackClick()
+            }
+        }
+    }
 }
 
 @Composable
-fun DetailsScreen(
-    uiState: DetailsViewModel.DetailsUiState,
+fun CreateNoteScreen(
+    uiState: CreateNoteViewModel.CreateNoteUiState,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    onEditClicked: () -> Unit,
     onSaveClicked: (UpdatedNote) -> Unit,
 ) {
     Column(
@@ -46,22 +62,13 @@ fun DetailsScreen(
         horizontalAlignment = Alignment.Start
     ) {
         when (uiState) {
-            DetailsViewModel.DetailsUiState.Loading -> LoadingScreen(modifier)
-            is DetailsViewModel.DetailsUiState.Show -> DetailsView(
+            is CreateNoteViewModel.CreateNoteUiState.Create -> DetailsEditView(
                 modifier = modifier,
-                state = uiState,
-                onBackClick = onBackClick,
-                onEditClicked = onEditClicked
-            )
-
-            is DetailsViewModel.DetailsUiState.Edit -> DetailsEditView(
-                modifier = modifier,
-                state = uiState,
+                title = "",
+                text = "",
                 onBackClick = onBackClick,
                 onSaveClicked = onSaveClicked
             )
-
-            DetailsViewModel.DetailsUiState.Error -> TODO()
         }
     }
 }

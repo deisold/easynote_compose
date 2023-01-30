@@ -6,20 +6,28 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable.invokeOnCompletion
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-abstract class MviViewModel<STATE : UiState, ACTION : UiAction> : ViewModel() {
+abstract class MviViewModel<STATE : UiState, ACTION : UiAction, EVENT : UiEvent> : ViewModel() {
     private val _uiState: MutableStateFlow<STATE> by lazy { MutableStateFlow(getInitialUiState()) }
     val uiState: StateFlow<STATE> by lazy { _uiState }
 
     private val _uiAction: MutableSharedFlow<ACTION> by lazy { MutableSharedFlow() }
     private var collectingUiActionJob: Job? = null
 
+    private val _uiEvent: MutableSharedFlow<EVENT> by lazy { MutableSharedFlow(extraBufferCapacity = 1) }
+    val uiEvent: SharedFlow<EVENT> by lazy { _uiEvent }
+
     abstract fun getInitialUiState(): STATE
 
     protected fun state(newState: STATE) {
         _uiState.tryEmit(newState)
+    }
+
+    protected fun event(event: EVENT) {
+        _uiEvent.tryEmit(event)
     }
 
     protected fun action(action: ACTION) {

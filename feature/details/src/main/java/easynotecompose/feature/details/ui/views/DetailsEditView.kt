@@ -28,19 +28,19 @@ import com.dirkeisold.easynotecompose.design.theme.MyTheme
 import easynotecompose.feature.details.R
 import easynotecompose.feature.details.common.createRandomNote
 import easynotecompose.feature.details.model.UpdatedNote
-import easynotecompose.feature.details.ui.DetailsViewModel
+import easynotecompose.feature.details.ui.details.DetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsEditView(
     modifier: Modifier = Modifier,
-    state: DetailsViewModel.DetailsUiState.Edit,
+    title: String, text: String?,
     onBackClick: () -> Unit,
     onSaveClicked: (UpdatedNote) -> Unit,
 ) {
 
-    var titleState by remember { mutableStateOf(state.title) }
-    var textState by remember { mutableStateOf(state.text ?: "") }
+    var titleState by remember { mutableStateOf(title) }
+    var textState by remember { mutableStateOf(text ?: "") }
 
     Column(modifier = modifier) {
         TopAppBar(
@@ -79,19 +79,24 @@ fun DetailsEditView(
                 }
             }
         )
-        OutlinedTextField(
-            modifier = modifier,
-            label = { Text(stringResource(id = R.string.details_action_edit_details_title_caption)) },
-            value = titleState,
-            onValueChange = { titleState = it }
-        )
+        Column(
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+        ) {
+            OutlinedTextField(
+                modifier = modifier,
+                label = { Text(stringResource(id = R.string.details_action_edit_details_title_caption)) },
+                value = titleState,
+                onValueChange = { titleState = it }
+            )
 
-        OutlinedTextField(
-            modifier = modifier,
-            label = { Text(stringResource(id = R.string.details_action_edit_details_text_caption)) },
-            value = textState,
-            onValueChange = { textState = it }
-        )
+
+            OutlinedTextField(
+                modifier = modifier,
+                label = { Text(stringResource(id = R.string.details_action_edit_details_text_caption)) },
+                value = textState,
+                onValueChange = { textState = it }
+            )
+        }
     }
 }
 
@@ -105,8 +110,10 @@ internal fun DetailsViewModel.DetailsUiState.Edit.toUpdatedNote() = UpdatedNote(
 internal fun DetailsEditPreview() {
     MyTheme {
         AppBackground {
+            val note = createRandomNote(1, longText = 200).toDetailsUiStateEdit()
             DetailsEditView(
-                state = createRandomNote(1, longText = 200).toDetailsUiStateEdit(),
+                title = note.title,
+                text = note.text,
                 onBackClick = {},
                 onSaveClicked = {},
             )

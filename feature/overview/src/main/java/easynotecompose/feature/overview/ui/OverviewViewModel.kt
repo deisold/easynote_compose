@@ -6,12 +6,13 @@ import com.dirkeisold.easynotecompose.core.model.Note
 import com.dirkeisold.easynotecompose.core.repository.NoteRepository
 import com.dirkeisold.easynotecompose.core.ui.common.MviViewModel
 import com.dirkeisold.easynotecompose.core.ui.common.UiAction
+import com.dirkeisold.easynotecompose.core.ui.common.UiEvent
 import com.dirkeisold.easynotecompose.core.ui.common.UiState
 import kotlinx.coroutines.launch
 
 class OverviewViewModel(
     val noteRepository: NoteRepository
-) : MviViewModel<OverviewViewModel.OverviewUiState, UiAction>() {
+) : MviViewModel<OverviewViewModel.OverviewUiState, UiAction, UiEvent>() {
     sealed interface OverviewUiState : UiState {
         object Loading : OverviewUiState
         object Error : OverviewUiState

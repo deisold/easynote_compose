@@ -31,7 +31,7 @@ import com.dirkeisold.easynotecompose.design.component.AppBackground
 import com.dirkeisold.easynotecompose.design.theme.MyTheme
 import easynotecompose.feature.details.R
 import easynotecompose.feature.details.common.createRandomNote
-import easynotecompose.feature.details.ui.DetailsViewModel
+import easynotecompose.feature.details.ui.details.DetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,7 +79,7 @@ fun DetailsView(
                 Column(
                     modifier = modifier
                         .verticalScroll(rememberScrollState())
-                        .padding(16.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
 
                     Card(
@@ -90,8 +90,7 @@ fun DetailsView(
                             .padding(16.dp),
                     ) {
                         Text(
-                            modifier = modifier
-                                .padding(16.dp),
+                            modifier = modifier.padding(16.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyMedium,
                         )

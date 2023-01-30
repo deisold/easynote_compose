@@ -33,21 +33,20 @@ fun OverviewListItem(
     navigateToDetails: (String) -> Unit,
 ) {
     Card(
-        shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .clickable { navigateToDetails(id) }
+            .padding(vertical = itemSeparation)
+            .clickable { navigateToDetails(id) },
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
-            modifier = modifier.padding(horizontal = 16.dp),
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(modifier = modifier.weight(1f)) {
                 Column(
                     modifier = Modifier
-                        .heightIn(48.dp, 80.dp)
-                        .padding(vertical = itemSeparation),
+                        .heightIn(48.dp, 80.dp),
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(

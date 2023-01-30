@@ -11,6 +11,11 @@ class NoteDatabaseDataSource(private val noteDao: NoteDao) : NoteDataSource {
 
     override suspend fun getAll(): Iterable<NoteEntity> = noteDao.getAll()
 
+    override suspend fun create(note: NoteEntity): NoteEntity {
+        noteDao.saveOrUpdate(note)
+        return note
+    }
+
     override suspend fun save(note: NoteEntity) {
         noteDao.saveOrUpdate(note)
     }

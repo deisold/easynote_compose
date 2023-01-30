@@ -14,10 +14,14 @@ fun NavController.navigateToOverview(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.overviewScreen(
     navigateToDetails: (String) -> Unit,
+    navigateToCreate: () -> Unit,
     nestedGraph: NavGraphBuilder.() -> Unit
 ) {
     composable(route = overviewNavigationRoute) {
-        OverviewListRoute(navigateToDetails = navigateToDetails)
+        OverviewListRoute(
+            navigateToDetails = navigateToDetails,
+            navigateToCreate = navigateToCreate
+        )
     }
     nestedGraph()
 }

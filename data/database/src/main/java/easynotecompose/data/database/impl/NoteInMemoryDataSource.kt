@@ -17,6 +17,11 @@ class NoteInMemoryDataSource : NoteDataSource {
 
     override suspend fun getAll(): Iterable<NoteEntity> = data.values
 
+    override suspend fun create(note: NoteEntity): NoteEntity {
+        data[note.id] = note
+        return note
+    }
+
     override suspend fun save(note: NoteEntity) {
         data[note.id] = note
     }

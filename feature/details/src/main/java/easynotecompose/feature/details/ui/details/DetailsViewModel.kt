@@ -1,4 +1,4 @@
-package easynotecompose.feature.details.ui
+package easynotecompose.feature.details.ui.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import com.dirkeisold.easynotecompose.core.model.Note
 import com.dirkeisold.easynotecompose.core.repository.NoteRepository
 import com.dirkeisold.easynotecompose.core.ui.common.MviViewModel
 import com.dirkeisold.easynotecompose.core.ui.common.UiAction
+import com.dirkeisold.easynotecompose.core.ui.common.UiEvent
 import com.dirkeisold.easynotecompose.core.ui.common.UiState
 import com.dirkeisold.easynotecompose.core.ui.common.case
 import easynotecompose.feature.details.model.UpdatedNote
@@ -15,7 +16,7 @@ import kotlinx.coroutines.launch
 class DetailsViewModel(
     val noteRepository: NoteRepository,
     val savedStateHandle: SavedStateHandle,
-) : MviViewModel<DetailsViewModel.DetailsUiState, DetailsViewModel.DetailsUiAction>() {
+) : MviViewModel<DetailsViewModel.DetailsUiState, DetailsViewModel.DetailsUiAction, UiEvent>() {
     sealed interface DetailsUiState : UiState {
         object Loading : DetailsUiState
         object Error : DetailsUiState

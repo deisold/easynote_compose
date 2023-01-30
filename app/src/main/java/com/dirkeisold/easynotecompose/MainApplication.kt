@@ -1,6 +1,7 @@
 package com.dirkeisold.easynotecompose
 
 import android.app.Application
+import com.dirkeisold.easynotecompose.di.mainModule
 import easynotecompose.data.database.di.dataBaseModule
 import easynotecompose.data.repository.di.repositoryModule
 import easynotecompose.feature.details.di.featureDetailsModule
@@ -18,11 +19,14 @@ class MainApplication : Application() {
             androidLogger()
             androidContext(this@MainApplication)
 
-            modules(getCoreKoinModule())
-            modules(getFeatureKoinModule())
+            modules(getCoreKoinModules())
+            modules(getFeatureKoinModules())
         }
     }
 
-    private fun getCoreKoinModule() = listOf(dataBaseModule, repositoryModule)
-    private fun getFeatureKoinModule() = listOf(featureOverviewModule, featureDetailsModule)
+    private fun getCoreKoinModules() = listOf(dataBaseModule, repositoryModule)
+    private fun getFeatureKoinModules() = listOf(
+        mainModule,
+        featureOverviewModule, featureDetailsModule
+    )
 }

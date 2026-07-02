@@ -2,19 +2,31 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.library")
-    id("kotlin-android")
     id("org.jetbrains.kotlin.android")
     alias(libs.plugins.ksp)
 }
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 android {
     namespace = "easynotecompose.data.database"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     defaultConfig {
         ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.schemaLocation", "$projectDir/schemas")
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
@@ -26,7 +38,6 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(libs.room.paging)
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit)

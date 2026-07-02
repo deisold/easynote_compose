@@ -1,12 +1,16 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.androidBuiltinKotlin)
 }
 
 android {
     namespace = "easynotecompose.data.repository"
     compileSdk = libs.versions.compileSdk.get().toInt()
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
 
 dependencies {

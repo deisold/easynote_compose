@@ -1,24 +1,27 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.androidBuiltinKotlin)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.dirkeisold.easynotecompose.core.ui"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     buildFeatures {
         compose = true
         viewBinding = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
 }
 
 dependencies {
+    api(platform(libs.androidx.compose.bom))
+
     api(libs.androidx.core.ktx)
     api(libs.koin.android)
     api(libs.androidx.compose.foundation)
